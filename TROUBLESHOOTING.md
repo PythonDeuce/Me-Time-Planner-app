@@ -1,0 +1,85 @@
+# Me Time Planner troubleshooting
+
+Where the files live (called "the settings folder" below):
+
+- Windows: `%APPDATA%\Me Time Planner`
+- macOS: `~/Library/Application Support/Me Time Planner`
+- Linux: `~/.config/Me Time Planner`
+
+## Windows says "Windows protected your PC"
+
+The build is not code signed, so SmartScreen warns the first time. Choose "More info", then "Run anyway". The warning does not come back for that file.
+
+## The download says "Virus detected" (Windows)
+
+Some antivirus programs flag new unsigned apps that few people have downloaded yet. It is a false alarm, but you have to let the file through yourself:
+
+1. Click Start, type Windows Security, and open it.
+2. Click "Virus & threat protection".
+3. Click "Protection history".
+4. Find the entry for Me Time Planner-windows.exe (it says Threat quarantined or blocked).
+5. Click it, then "Actions", then "Allow" (or Restore).
+6. Download the Windows file from the download page again. This time it stays.
+7. Open it. If Windows shows "Windows protected your PC", click "More info", then "Run anyway".
+
+With a different antivirus (McAfee, Norton, Avast, and others), open that program, look for Quarantine or History, find Me Time Planner, choose Restore or Allow, then do steps 6 and 7.
+
+## macOS says the app is damaged, will not open, or is from an unidentified developer
+
+There are two Mac downloads. Apple menu, About This Mac: "Apple M1" or later means the Apple silicon build (`Me Time Planner-macos-arm64.zip`), "Intel" means the Intel build (`Me Time Planner-macos-intel.zip`). The wrong one does not launch at all.
+
+The build is not notarized. Right click the app, choose Open, then Open again in the dialog. If macOS still refuses, run once in Terminal:
+
+```bash
+xattr -dr com.apple.quarantine /Applications/Me Time Planner.app
+```
+
+## Nothing appears, or a dialog says WebView2 is missing (Windows)
+
+Me Time Planner draws with the Edge WebView2 runtime, which ships with Windows 11 and most Windows 10 machines. If it is missing, install the Evergreen runtime from Microsoft's WebView2 page, then start Me Time Planner again.
+
+## Nothing appears on Linux
+
+Install the WebKitGTK bindings, then start again:
+
+```bash
+sudo apt install python3-gi gir1.2-webkit2-4.1 gir1.2-gtk-3.0
+```
+
+Transparency needs a compositing window manager (GNOME, KDE, picom). Without one the window has a solid background.
+
+## A second copy will not start
+
+Only one Me Time Planner runs at a time. Starting it again brings the running one to the front. If nothing is on screen, look for the tray icon and choose Show, or Bring to screen.
+
+## The widget is off screen
+
+Right click the tray icon and choose "Bring to screen". It centers the clock on the monitor under the cursor.
+
+## My settings are gone
+
+Settings and notes are kept twice: in the app's browser storage and in `store.json` in the settings folder. The file is the copy that counts. Every start reads it before the page draws and repairs the browser copy from it, and every change is written to it within a second. If the file was damaged, the settings folder has a `backups` folder with a dated copy of `store.json` from each start that changed it, the newest ten. Quit Me Time Planner, copy the newest good one over `store.json`, and start again.
+
+Settings depend on the local port 47321. If another program holds that port, Me Time Planner uses the next one and shows a toast saying so; settings are restored from `store.json` in that case.
+
+## Notes are missing after an update from 1.0.x
+
+Versions 1.0.0 to 1.0.6 shipped without the note window files, so notes could not open. Version 1.1.0 fixes that; note data written by an earlier version is still in the store and comes back.
+
+## Reading the log
+
+`timepeace.log` in the settings folder records startup, window events, script errors, and the update check. It rotates at about 512 KB. When reporting a problem, include the lines from the last start (they begin with a line containing "started").
+
+## Starting over
+
+Quit Me Time Planner, then delete the settings folder. The next start is a fresh install. Delete only `state.json` to reset window positions and keep everything else.
+
+## Updates
+
+With Updates set to Automatic (Settings, About Me Time Planner), the app downloads a new release when the daily check finds one, verifies it against the checksum published with the release, and installs it the next time Me Time Planner starts. Settings, About shows "downloaded" with a Restart now link while it waits; the tray item reads "Restart to update".
+
+- The downloaded file waits in the `updates` folder beside your settings (`%APPDATA%\Me Time Planner\updates` on Windows, `~/Library/Application Support/Me Time Planner/updates` on Mac, `~/.config/Me Time Planner/updates` on Linux). Delete it to cancel a pending update.
+- On Mac the new `Me Time Planner.app` replaces the old bundle where it sits (the Applications folder, or wherever you put it); on Linux the binary is replaced in place.
+- The previous build stays beside the app as `.old` until the next start. If a swap fails, the updater puts the old build back and starts it.
+- An update only installs on its own when the release carries a `SHA256SUMS.txt` and the download matches it; otherwise the app only offers the download page.
+- Set Updates to Manual to be told only. When running from source, updates are never applied on their own.
