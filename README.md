@@ -2,7 +2,19 @@
 
 A planner that knows everyone's hours: tap a time on the day's strips, see what it is for every city, add the event, and let the alarms and goals come to you.
 
-Me Time Planner is built from the same code as [TimePeace](https://github.com/PythonDeuce/TimePeace-app), the all in one desktop clock, and shares its wrapper (`desktop/widget.py`), its store, its settings and its windows. `scripts/derive_from_timepeace.py` rebuilds this folder from a TimePeace checkout; the product's own pieces are its name, icon, settings folder, repositories and the hub page the main window opens (`index.html?widget=1&tool=planhub`).
+Me Time Planner began as the Plan of [TimePeace](https://github.com/PythonDeuce/TimePeace-app), the all in one desktop clock, and shares its wrapper (`desktop/widget.py`), its store, its settings and its windows. Since 0.2.0 it carries its own code on top: `js/plan-smart.js` (the planning rules), `js/desk.js` and `js/desk-more.js` (the desk), `js/mini.js` (the small windows), `js/holidays.js` (fifteen countries), `desktop/tp_extras.py` and `desktop/tp_qr.py` (the wrapper's hands and the QR code). `scripts/derive_from_timepeace.py` is kept for the record and refuses to run over them.
+
+## The desk
+
+- **Day**: the day under a quick-add line ("lunch with Ana Friday 1pm 90 min #work at Café Nord"), a now line, warnings when events collide, Roll forward, Next up with a countdown, Free today, who is awake, the budgets.
+- **Week**: drag blocks to move them, stretch them, draw new ones.
+- **Month**: how busy each day is, the free days, what is coming.
+- **Goals**: milestones, dependencies, pace, a timeline, projects, Someday, routine bundles, Find me time, Plan my day, Paste an invite.
+- **Habits**: days, streaks, chains, a tick a day.
+- **Review**: the week in numbers against the week before, time budgets, the archive, undo, the year in review, exports, the week as text or a picture, your free times in any city's time.
+- **Cities**: everyone's hours on the strips, who is awake, sunrise and sunset, trips, holidays.
+
+Alarms escalate, speak, hold in quiet hours, during focus blocks and under do not disturb, wake the computer, fire on context ("when I am back"), and reach a phone through a webhook. Connect adds calendar subscriptions, a phone page with a QR code, a calendar feed, plans between computers and two small pinned windows. Every feature works on Windows, macOS and Linux; the system's own voice and timers are used where they differ.
 
 ## Run from source
 
