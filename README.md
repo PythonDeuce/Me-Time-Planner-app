@@ -14,6 +14,8 @@ Me Time Planner began as the Plan of [TimePeace](https://github.com/PythonDeuce/
 - **Review**: the week in numbers against the week before, time budgets, the archive, undo, the year in review, exports, the week as text or a picture, your free times in any city's time.
 - **Cities**: everyone's hours on the strips, who is awake, sunrise and sunset, trips, holidays.
 
+The line also moves things: "move dentist to Thursday 3pm", "push everything after lunch 30 min". A repeating event can be moved alone (Only this one) or skipped; the card duplicates; a double click on empty space in Day adds an event there; ? shows Keys and the line. A `note:` link on an event (Copy link in HI Notes) opens that note in HI Notes.
+
 Alarms escalate, speak, hold in quiet hours, during focus blocks and under do not disturb, wake the computer, fire on context ("when I am back"), and reach a phone through a webhook. Connect adds calendar subscriptions, a phone page with a QR code, a calendar feed, plans between computers and two small pinned windows. Every feature works on Windows, macOS and Linux; the system's own voice and timers are used where they differ.
 
 ## Run from source
